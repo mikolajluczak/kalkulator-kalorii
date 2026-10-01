@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalkulator kalorii — Mikołaj Łuczak</title>
+<meta name="description" content="Kalkulator dla kobiet z insulinoopornością: ile kalorii, białka, tłuszczu i węglowodanów jeść na redukcji. Kalkulator dietetyka Mikołaja Łuczaka.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --granat: #042949;
+    --szary: #5B7186;
+    --tlo: #F1EDE6;
+    --karta: #FFFFFF;
+    --linia: #D9D0C4;
+    --akcent: #EDF4EA;
+    --ostrz: #FFF4E5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--tlo);
+    color: var(--granat);
+    font-family: "Nunito Sans", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+  main { max-width: 520px; margin: 0 auto; padding: 28px 16px 48px; }
+  h1 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 1.2;
+    margin: 0 0 8px;
+  }
+  .lead { color: var(--szary); margin: 0 0 12px; }
+  .prywatnosc { font-size: 14px; color: var(--szary); background: var(--akcent); border-radius: 10px; padding: 10px 14px; margin: 0 0 20px; }
+  .karta {
+    background: var(--karta);
+    border: 1px solid var(--linia);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  label { display: block; font-weight: 700; margin: 0 0 6px; }
+  .pole { margin-bottom: 18px; }
+  .pole:last-child { margin-bottom: 0; }
+  .podpowiedz { font-size: 14px; color: var(--szary); margin: 4px 0 0; }
+  input, select {
+    width: 100%;
+    font: inherit;
+    color: var(--granat);
+    padding: 12px 14px;
+    border: 1px solid var(--linia);
+    border-radius: 10px;
+    background: #fff;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--granat) 50%), linear-gradient(135deg, var(--granat) 50%, transparent 50%);
+    background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 40px;
+  }
+  input:focus, select:focus { outline: 2px solid var(--granat); outline-offset: 1px; }
+  .rzad { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .rzad label { font-size: 15px; }
+  button {
+    width: 100%;
+    font: inherit;
+    font-weight: 700;
+    color: #fff;
+    background: var(--granat);
+    border: 0;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+  }
+  .blad { color: #A12B2B; font-size: 15px; margin: 12px 0 0; min-height: 1em; }
+  #wynik { display: none; }
+  .kcal {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 44px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin: 0;
+  }
+  .kcal small { font-family: "Nunito Sans", sans-serif; font-size: 18px; font-weight: 600; }
+  .makro { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
+  .makro div { background: var(--akcent); border-radius: 10px; padding: 12px 8px; text-align: center; }
+  .makro b { display: block; font-size: 22px; }
+  .makro span { font-size: 14px; color: var(--szary); }
+  .tempo { margin: 0 0 12px; }
+  .komunikat { background: var(--ostrz); border-radius: 10px; padding: 14px 16px; margin: 0; }
+  .uwagi { font-size: 15px; color: var(--szary); padding-left: 18px; margin: 12px 0 0; }
+  .uwagi li { margin-bottom: 6px; }
+  .cta { text-align: center; }
+  .cta a {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--granat);
+    font-weight: 700;
+    border: 1.5px solid var(--granat);
+    border-radius: 10px;
+    padding: 12px 18px;
+    text-decoration: none;
+  }
+  footer { font-size: 16px; color: var(--szary); text-align: center; margin-top: 32px; }
+  .podpis { display: block; font-family: "Playfair Display", Georgia, serif; font-size: 24px; font-weight: 600; color: var(--granat); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Ile jeść, żeby chudnąć?</h1>
+  <p class="lead">Kalkulator dla kobiet z insulinoopornością. Policz kalorie, białko, tłuszcz i węglowodany na start redukcji.</p>
+  <p class="prywatnosc">🔒 Wyniki liczą się w Twoim telefonie. Nic nie jest wysyłane ani zapisywane.</p>
+
+  <form class="karta" id="formularz" novalidate>
+    <div class="pole rzad">
+      <div>
+        <label for="wiek">Wiek</label>
+        <input id="wiek" type="number" inputmode="numeric" min="18" max="80" placeholder="lata">
+      </div>
+      <div>
+        <label for="wzrost">Wzrost</label>
+        <input id="wzrost" type="number" inputmode="numeric" min="140" max="200" placeholder="cm">
+      </div>
+      <div>
+        <label for="waga">Waga</label>
+        <input id="waga" type="text" inputmode="decimal" autocomplete="off" placeholder="kg">
+      </div>
+    </div>
+
+    <div class="pole">
+      <label for="praca">Jak wygląda Twój dzień?</label>
+      <select id="praca">
+        <option value="1.4">Siedzę prawie cały dzień</option>
+        <option value="1.5" selected>Siedzę, ale trochę chodzę</option>
+        <option value="1.6">Dużo chodzę albo stoję</option>
+        <option value="1.7">Praca fizyczna</option>
+      </select>
+    </div>
+
+    <div class="pole">
+      <label for="trening">Trening w tygodniu</label>
+      <select id="trening">
+        <option value="0" selected>Nie trenuję</option>
+        <option value="0.05">1–2 razy</option>
+        <option value="0.1">3–4 razy</option>
+        <option value="0.15">5 razy i więcej</option>
+      </select>
+    </div>
+
+    <button type="submit">Policz</button>
+    <p class="blad" id="blad" role="alert"></p>
+  </form>
+
+  <section class="karta" id="wynik" aria-live="polite"></section>
+
+  <div class="cta">
+    <p>Chcesz plan ułożony pod Ciebie, a nie pod wzór?</p>
+    <a href="https://www.instagram.com/dietetyk.luczak/" target="_blank" rel="noopener">Napisz do mnie na Instagramie</a>
+  </div>
+
+  <footer>
+    <span class="podpis">Mikołaj Łuczak</span>
+    dietetyk i trener
+  </footer>
+</main>
+
+<script>
+(function () {
+  var form = document.getElementById("formularz");
+  var blad = document.getElementById("blad");
+  var wynik = document.getElementById("wynik");
+
+  function liczba(id) {
+    var v = document.getElementById(id).value.replace(",", ".");
+    return v === "" ? NaN : Number(v);
+  }
+
+  function zaokr(x, co) { return Math.round(x / co) * co; }
+
+  // Harris-Benedict (1919), wzór dla kobiet
+  function spm(waga, wzrost, wiek) {
+    return 655.0955 + 9.5634 * waga + 1.8496 * wzrost - 4.6756 * wiek;
+  }
+
+  // Deficyt 15% przy BMI do 25, rośnie liniowo do 20% przy BMI 35 i wyżej
+  function deficyt(bmi) {
+    if (bmi <= 25) return 0.15;
+    if (bmi >= 35) return 0.20;
+    return 0.15 + (bmi - 25) * 0.005;
+  }
+
+  function pokaz(html) {
+    wynik.innerHTML = html;
+    wynik.style.display = "block";
+    wynik.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    blad.textContent = "";
+
+    var wiek = liczba("wiek");
+    var wzrost = liczba("wzrost");
+    var waga = liczba("waga");
+    // PAL z pracy i treningu, najwyżej 1,8
+    var pal = Math.min(1.8, Number(document.getElementById("praca").value) + Number(document.getElementById("trening").value));
+
+    if (!(wiek >= 10 && wiek <= 100) || !(wzrost >= 120 && wzrost <= 220) || !(waga >= 30 && waga <= 250)) {
+      blad.textContent = "Wpisz wiek, wzrost i wagę.";
+      wynik.style.display = "none";
+      return;
+    }
+
+    if (wiek < 18) {
+      pokaz('<p class="komunikat">Ten kalkulator jest dla dorosłych. W Twoim wieku organizm jeszcze rośnie, więc kalorie i redukcję trzeba ustalić indywidualnie.</p>');
+      return;
+    }
+
+    if (waga > 100) {
+      pokaz('<p class="komunikat"><b>Przy wadze powyżej 100 kg ten wzór nie jest dla Ciebie.</b><br>Na tym etapie lepiej działa plan ułożony indywidualnie niż ogólny przelicznik. Napisz do mnie, policzymy to razem.</p>');
+      return;
+    }
+
+    var bmi = waga / Math.pow(wzrost / 100, 2);
+    var podstawa = spm(waga, wzrost, wiek);
+    var utrzymanie = podstawa * pal;
+
+    if (bmi < 20) {
+      pokaz(
+        '<p class="komunikat">Twoja waga jest w normie, więc nie liczę Ci deficytu. ' +
+        'Na utrzymanie to około <b>' + zaokr(utrzymanie, 50) + ' kcal</b> dziennie. ' +
+        'Jeśli chcesz zmienić sylwetkę, lepszy kierunek to trening siłowy i białko niż jedzenie mniej.</p>'
+      );
+      return;
+    }
+
+    var kcal = Math.max(utrzymanie * (1 - deficyt(bmi)), podstawa);
+    kcal = zaokr(kcal, 50);
+
+    // Przy BMI powyżej 30 białko i tłuszcz liczone od wagi odpowiadającej BMI 30,
+    // inaczej u niskich kobiet z nadwagą na węglowodany zostaje za mało
+    var wagaMakro = Math.min(waga, 30 * Math.pow(wzrost / 100, 2));
+    var bialko = zaokr(wagaMakro * 1.8, 5);
+    var tluszcz = zaokr(wagaMakro * 1.0, 5);
+    // Minimum 100 g węglowodanów: najpierw schodzi tłuszcz (do 0,7 g/kg), potem białko (do 1,6 g/kg)
+    var wegle = (kcal - bialko * 4 - tluszcz * 9) / 4;
+    if (wegle < 100) {
+      tluszcz = zaokr(Math.max(0.7 * wagaMakro, (kcal - bialko * 4 - 400) / 9), 5);
+      wegle = (kcal - bialko * 4 - tluszcz * 9) / 4;
+      if (wegle < 100) {
+        bialko = zaokr(Math.max(1.6 * wagaMakro, (kcal - tluszcz * 9 - 400) / 4), 5);
+        wegle = (kcal - bialko * 4 - tluszcz * 9) / 4;
+      }
+    }
+    wegle = zaokr(wegle, 5);
+
+    var tMin = (waga * 0.005).toFixed(1).replace(".", ",");
+    var tMax = (waga * 0.01).toFixed(1).replace(".", ",");
+
+    pokaz(
+      '<p class="kcal">' + kcal + ' <small>kcal dziennie</small></p>' +
+      '<div class="makro">' +
+        '<div><b>' + bialko + ' g</b><span>białko</span></div>' +
+        '<div><b>' + tluszcz + ' g</b><span>tłuszcz</span></div>' +
+        '<div><b>' + wegle + ' g</b><span>węglowodany</span></div>' +
+      '</div>' +
+      '<p class="tempo">Zdrowe tempo dla Ciebie: <b>' + tMin + '–' + tMax + ' kg tygodniowo</b>.</p>' +
+      '<ul class="uwagi">' +
+        '<li>To punkt startowy. Po 2–3 tygodniach patrz na wagę i obwody, a nie na jeden dzień.</li>' +
+        '<li>W pierwszych dniach waga może spaść szybciej. To w dużej części woda.</li>' +
+        '<li>Węglowodany to reszta kalorii. Nie musisz ich wycinać, żeby chudnąć.</li>' +
+        '<li>W ciąży i przy karmieniu piersią nie licz deficytu.</li>' +
+      '</ul>'
+    );
+  });
+})();
+</script>
+</body>
+</html>
