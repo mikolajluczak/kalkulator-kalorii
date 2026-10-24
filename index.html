@@ -3,115 +3,132 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kalkulator kalorii — Mikołaj Łuczak</title>
+<title>Kalkulator kalorii · Mikołaj Łuczak</title>
 <meta name="description" content="Kalkulator dla kobiet z insulinoopornością: ile kalorii, białka, tłuszczu i węglowodanów jeść na redukcji. Kalkulator dietetyka Mikołaja Łuczaka.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+  /* Kolory i czcionki jak na mikolajluczak.pl (oliwka + śliwka, Lora + Inter), 24.10.26 */
   :root {
-    --granat: #042949;
-    --szary: #5B7186;
-    --tlo: #F1EDE6;
-    --karta: #FFFFFF;
-    --linia: #D9D0C4;
-    --akcent: #EDF4EA;
-    --ostrz: #FFF4E5;
+    --krem: #fbf7f1;
+    --piasek: #f3ede3;
+    --oliwka: #2e3326;
+    --tusz: #22251b;
+    --tekst: #4a4a3f;
+    --szary: #6b695e;
+    --sliwka: #6b2d5c;
+    --sliwka-hover: #5a244d;
+    --sliwka-ciemna: #4a1f40;
+    --sliwka-jasna: #d9b3cb;
+    --sliwka-mgla: #f3e8ef;
+    --linia: rgba(34, 37, 27, 0.15);
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: var(--tlo);
-    color: var(--granat);
-    font-family: "Nunito Sans", system-ui, sans-serif;
+    background: var(--piasek);
+    color: var(--tekst);
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 17px;
     line-height: 1.5;
   }
   main { max-width: 520px; margin: 0 auto; padding: 28px 16px 48px; }
   h1 {
-    font-family: "Playfair Display", Georgia, serif;
+    font-family: "Lora", Georgia, serif;
     font-weight: 600;
     font-size: 30px;
     line-height: 1.2;
+    color: var(--tusz);
     margin: 0 0 8px;
   }
   .lead { color: var(--szary); margin: 0 0 12px; }
-  .prywatnosc { font-size: 14px; color: var(--szary); background: var(--akcent); border-radius: 10px; padding: 10px 14px; margin: 0 0 20px; }
+  .prywatnosc { font-size: 14px; color: var(--sliwka-ciemna); background: var(--sliwka-mgla); border-radius: 14px; padding: 10px 14px; margin: 0 0 20px; }
   .karta {
-    background: var(--karta);
-    border: 1px solid var(--linia);
-    border-radius: 14px;
+    background: var(--krem);
+    border-radius: 20px;
     padding: 20px;
     margin-bottom: 20px;
+    box-shadow: 0 0 0 1px rgba(34, 37, 27, 0.05), 0 40px 80px -48px rgba(34, 37, 27, 0.45);
   }
-  label { display: block; font-weight: 700; margin: 0 0 6px; }
+  label { display: block; font-weight: 600; color: var(--tusz); margin: 0 0 6px; }
   .pole { margin-bottom: 18px; }
   .pole:last-child { margin-bottom: 0; }
   .podpowiedz { font-size: 14px; color: var(--szary); margin: 4px 0 0; }
   input, select {
     width: 100%;
     font: inherit;
-    color: var(--granat);
+    color: var(--tusz);
     padding: 12px 14px;
     border: 1px solid var(--linia);
-    border-radius: 10px;
-    background: #fff;
+    border-radius: 14px;
+    background: rgba(243, 237, 227, 0.5);
     -webkit-appearance: none;
     appearance: none;
   }
   select {
-    background-image: linear-gradient(45deg, transparent 50%, var(--granat) 50%), linear-gradient(135deg, var(--granat) 50%, transparent 50%);
+    background-image: linear-gradient(45deg, transparent 50%, var(--sliwka) 50%), linear-gradient(135deg, var(--sliwka) 50%, transparent 50%);
     background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%;
     background-size: 6px 6px;
     background-repeat: no-repeat;
     padding-right: 40px;
   }
-  input:focus, select:focus { outline: 2px solid var(--granat); outline-offset: 1px; }
+  input:focus, select:focus { outline: none; border-color: var(--sliwka); background-color: var(--krem); box-shadow: 0 0 0 4px var(--sliwka-mgla); }
   .rzad { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   .rzad label { font-size: 15px; }
   button {
     width: 100%;
     font: inherit;
-    font-weight: 700;
-    color: #fff;
-    background: var(--granat);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--krem);
+    background: var(--sliwka);
     border: 0;
-    border-radius: 10px;
-    padding: 15px;
+    border-radius: 999px;
+    padding: 17px;
     cursor: pointer;
+    box-shadow: 0 14px 30px -14px rgba(107, 45, 92, 0.7);
   }
+  button:hover { background: var(--sliwka-hover); }
+  button:focus-visible { outline: 2px solid var(--sliwka); outline-offset: 4px; }
   .blad { color: #A12B2B; font-size: 15px; margin: 12px 0 0; min-height: 1em; }
   #wynik { display: none; }
   .kcal {
-    font-family: "Playfair Display", Georgia, serif;
+    font-family: "Lora", Georgia, serif;
     font-size: 44px;
     font-weight: 600;
     line-height: 1.1;
+    color: var(--sliwka);
     margin: 0;
   }
-  .kcal small { font-family: "Nunito Sans", sans-serif; font-size: 18px; font-weight: 600; }
+  .kcal small { font-family: "Inter", sans-serif; font-size: 18px; font-weight: 600; color: var(--tusz); }
   .makro { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
-  .makro div { background: var(--akcent); border-radius: 10px; padding: 12px 8px; text-align: center; }
-  .makro b { display: block; font-size: 22px; }
+  .makro div { background: var(--sliwka-mgla); border-radius: 14px; padding: 12px 8px; text-align: center; }
+  .makro b { display: block; font-size: 22px; color: var(--sliwka-ciemna); }
   .makro span { font-size: 14px; color: var(--szary); }
   .tempo { margin: 0 0 12px; }
-  .komunikat { background: var(--ostrz); border-radius: 10px; padding: 14px 16px; margin: 0; }
+  .tempo b, .komunikat b { color: var(--tusz); }
+  .komunikat { background: var(--piasek); border-radius: 14px; padding: 14px 16px; margin: 0; }
   .uwagi { font-size: 15px; color: var(--szary); padding-left: 18px; margin: 12px 0 0; }
   .uwagi li { margin-bottom: 6px; }
   .cta { text-align: center; }
+  .cta b { color: var(--tusz); }
   .cta a {
     display: inline-block;
     margin-top: 10px;
-    color: var(--granat);
-    font-weight: 700;
-    border: 1.5px solid var(--granat);
-    border-radius: 10px;
-    padding: 12px 18px;
+    color: var(--sliwka);
+    font-weight: 600;
+    border: 1.5px solid var(--sliwka);
+    border-radius: 999px;
+    padding: 12px 22px;
     text-decoration: none;
   }
+  .cta a:hover { background: var(--sliwka-mgla); }
   footer { font-size: 16px; color: var(--szary); text-align: center; margin-top: 32px; }
-  .podpis { display: block; font-family: "Playfair Display", Georgia, serif; font-size: 24px; font-weight: 600; color: var(--granat); }
+  .podpis { display: block; font-family: "Lora", Georgia, serif; font-size: 24px; font-weight: 600; color: var(--oliwka); }
 </style>
 </head>
 <body>
@@ -150,8 +167,8 @@
       <label for="trening">Trening w tygodniu</label>
       <select id="trening">
         <option value="0" selected>Nie trenuję</option>
-        <option value="0.05">1–2 razy</option>
-        <option value="0.1">3–4 razy</option>
+        <option value="0.05">1-2 razy</option>
+        <option value="0.1">3-4 razy</option>
         <option value="0.15">5 razy i więcej</option>
       </select>
     </div>
@@ -273,9 +290,9 @@
         '<div><b>' + tluszcz + ' g</b><span>tłuszcz</span></div>' +
         '<div><b>' + wegle + ' g</b><span>węglowodany</span></div>' +
       '</div>' +
-      '<p class="tempo">Zdrowe tempo dla Ciebie: <b>' + tMin + '–' + tMax + ' kg tygodniowo</b>.</p>' +
+      '<p class="tempo">Zdrowe tempo dla Ciebie: <b>' + tMin + '-' + tMax + ' kg tygodniowo</b>.</p>' +
       '<ul class="uwagi">' +
-        '<li>To punkt startowy. Po 2–3 tygodniach patrz na wagę i obwody, a nie na jeden dzień.</li>' +
+        '<li>To punkt startowy. Po 2-3 tygodniach patrz na wagę i obwody, a nie na jeden dzień.</li>' +
         '<li>W pierwszych dniach waga może spaść szybciej. To w dużej części woda.</li>' +
         '<li>Węglowodany to reszta kalorii. Nie musisz ich wycinać, żeby chudnąć.</li>' +
         '<li>W ciąży i przy karmieniu piersią nie licz deficytu.</li>' +
